@@ -103,8 +103,8 @@ $$
 We maximize a summed margin‑style fitness over all constraints \( \mathcal{C} \):
 
 $$
-F(\mathbf{W}) \;=\;
-\sum_{(\mathbf{s}_c,a_c) \in \mathcal{C}} \;
+F(\mathbf{W}) \=\
+\sum_{(\mathbf{s}_c,a_c) \in \mathcal{C}} \
 \sum_{b \in \mathcal{A},\, b \neq a_c}
 \Big(\mathbf{w}^{(a_c)} - \mathbf{w}^{(b)}\Big)\cdot \mathbf{s}_c.
 $$
