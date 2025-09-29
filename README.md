@@ -101,7 +101,7 @@ where $d$ is the constant damage rate while the beam intersects a target.
 - **Teleport:** preview a marker \(k\) cells ahead; confirm to blink and pay cost
 
 $$
-\mathrm{Cost}_{\mathrm{TP}}(k) \=\ c_0 + c_1\k \qquad k \in \mathbb{N}.
+\mathrm{Cost}_{\mathrm{TP}}(k) \;=\; c_0 + c_1\,k, \qquad k \in \mathbb{N}.
 $$
 
 ---
