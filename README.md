@@ -96,8 +96,7 @@ $$
 From multiplayer sessions we log constraints \( (\mathbf{s}_c, a_c) \): state and the human‑chosen action. We train by preferring the chosen action over all others:
 
 $$
-\mathbf{w}^{(a_c)} \cdot \mathbf{s}_c \;>\; \mathbf{w}^{(b)} \cdot \mathbf{s}_c,
-\qquad \forall\, b \neq a_c.
+\mathbf{w}^{(a_c)} \cdot \mathbf{s}_c \>\ \mathbf{w}^{(b)} \cdot \mathbf{s}_c, \qquad \forall\, b \neq a_c.
 $$
 
 We maximize a summed margin‑style fitness over all constraints \( \mathcal{C} \):
