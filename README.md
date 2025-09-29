@@ -69,22 +69,38 @@ A 1v1 **action‑strategy** game set inside a **procedurally generated maze**, w
 ## Game Mechanics
 
 ### Maze Generation
-- Cells form an $m\\times n$ grid. A depth‑first search (DFS) carves a **perfect maze** (single path between any two cells), then a second pass **adds loops** by knocking down extra walls with probability $p_{\\text{loop}}$.
+- Cells form a rectangular grid; a DFS carves a **perfect maze**, then extra walls are removed with probability \(p_{\mathrm{loop}}\) to add loops.
+
+$$
+\text{Grid size: } m \times n, \qquad \text{Loop probability: } p_{\mathrm{loop}} \in [0,1].
+$$
+
 - Walls flagged **destructible** hold hit points (HP) and render overhead HP bars.
 
 ### Resources: Health and Chakra
-- **Health** $H$ is fixed per life; **Chakra** $\\chi\\in[0,\\chi_{\\max}]$ **recharges** at rate $r$ when not spending. Abilities consume chakra; HUD shows both bars.
-- (Optional) **Charging** mode: holding a key increases $\\chi$ faster but slows movement.
-
-### Combat: Continuous Laser
-- A raycast is maintained while firing. On each frame $t$ that the beam intersects a target, apply damage $\\Delta H_t = d\\,\\Delta t$ (constant rate $d$). The target’s overhead HP bar shrinks **continuously** and is hidden after an inactivity timeout.
-
-### Environment Manipulation: Barriers & Teleportation
-- **Barrier:** spawn a wall in the forward grid cell; despawns after duration $\\tau$ or manual toggle.
-- **Teleport:** preview a marker $k$ cells ahead; confirm to blink and pay cost
+- Health does **not** regenerate; Chakra regenerates when not spending. Variables:
 
 $$
-\\operatorname{Cost}_{\\text{TP}}(k) = c_0 + c_1\\,k,\\quad k\\in\\mathbb{N}.
+H \in \mathbb{R}_{\ge 0}, \qquad 
+\chi \in [0,\chi_{\max}], \qquad 
+\frac{d\chi}{dt} = r \ \text{(when not spending)}.
+$$
+
+### Combat: Continuous Laser
+- A raycast is maintained while firing; damage accumulates per frame \(\Delta t\):
+
+$$
+\Delta H_t \;=\; d \,\Delta t,
+$$
+
+where \(d\) is the constant damage rate while the beam intersects a target.
+
+### Environment Manipulation: Barriers & Teleportation
+- **Barrier:** spawns in the forward grid cell; despawns after duration \(\tau\) or manual toggle.
+- **Teleport:** preview a marker \(k\) cells ahead; confirm to blink and pay cost
+
+$$
+\mathrm{Cost}_{\mathrm{TP}}(k) \;=\; c_0 + c_1\,k, \qquad k \in \mathbb{N}.
 $$
 
 ---
@@ -97,54 +113,81 @@ $$
 ## AI: Policy, Equations & GA
 
 ### State, Actions, and Linear Policy
-- **Actions** $\\mathcal{A} = \\{\\texttt{Laser},\\ \\texttt{Blocking},\\ \\texttt{Hindering},\\ \\texttt{Escaping},\\ \\texttt{ShowingUp},\\ \\texttt{Teleport},\\ \\texttt{Charging}\\}$ (7 actions).
-- **State** $\\mathbf{s}\\in\\mathbb{R}^5$:
-  - $s_1=\\texttt{dtile}\\in[0,1]$: normalized grid distance;
-  - $s_2\\in\\{0,1\\}$: line‑of‑sight flag;
-  - $s_3\\in\\{0,1\\}$: opponent being hit;
-  - $s_4\\in\\{0,1\\}$: self being hit;
-  - $s_5=\\chi\\in[0,1]$: normalized chakra.
-- **Linear policy**: each action $a$ has weights $\\mathbf{w}^{(a)}\\in\\mathbb{R}^5$. The score is
+We discretize gameplay into a small state vector and seven macro‑actions.
 
 $$
-\\operatorname{Score}(a\\mid\\mathbf{s}) = \\mathbf{w}^{(a)}\\cdot\\mathbf{s} = \\sum_{j=1}^{5} w^{(a)}_j s_j,\\qquad a^* = \\arg\\max_a \\operatorname{Score}(a\\mid\\mathbf{s}).
+\mathcal{A} = \{\texttt{Laser},\,\texttt{Blocking},\,\texttt{Hindering},\,\texttt{Escaping},\,\texttt{ShowingUp},\,\texttt{Teleport},\,\texttt{Charging}\} \quad (|\mathcal{A}|=7).
+$$
+
+State vector (normalized/scalar flags):
+
+$$
+\mathbf{s} = [\,s_1, s_2, s_3, s_4, s_5\,]^\top \in \mathbb{R}^5,
+\quad
+\begin{aligned}
+&s_1=\texttt{dtile}\in[0,1],\\
+&s_2 \in \{0,1\}\ \text{(line of sight)},\\
+&s_3 \in \{0,1\}\ \text{(opponent being hit)},\\
+&s_4 \in \{0,1\}\ \text{(self being hit)},\\
+&s_5=\chi \in [0,1]\ \text{(normalized chakra)}.\\
+\end{aligned}
+$$
+
+Each action \(a \in \mathcal{A}\) has weights \(\mathbf{w}^{(a)} \in \mathbb{R}^5\). We score actions by a dot‑product and choose the maximum:
+
+$$
+\mathrm{Score}(a \mid \mathbf{s}) \;=\; \mathbf{w}^{(a)} \cdot \mathbf{s}
+\;=\; \sum_{j=1}^{5} w^{(a)}_j s_j,
+\qquad
+a^* \;=\; \arg\max_{a \in \mathcal{A}} \mathrm{Score}(a \mid \mathbf{s}).
 $$
 
 ### Optional MLP Policy
 A compact 1‑hidden‑layer MLP increases capacity:
 
 $$
-\\mathbb{R}^5 \\xrightarrow{\\mathbf{W}^{(1)}} \\mathbb{R}^6 \\xrightarrow{\\sigma} \\mathbb{R}^6 \\xrightarrow{\\mathbf{W}^{(2)}} \\mathbb{R}^7.
+\mathbb{R}^5 \;\to\; \mathbb{R}^6 \;\to\; \mathbb{R}^6 \;\to\; \mathbb{R}^7.
 $$
 
 ### Genome & Discretization
-- **Genome:** concatenate all weights $\\mathbf{W}=[\\mathbf{w}^{(1)}|\\cdots|\\mathbf{w}^{(7)}]\\in\\mathbb{R}^{7\\times5}$ → vector of length **35**.
-- **Quantization:** each gene $w_j\\in\\{-1,-0.9,\\ldots,0.9,1\\}$ (21 levels) to keep GA search tractable.
+We concatenate all weights into a genome vector and quantize for GA search:
+
+$$
+\mathbf{W} = \big[\,\mathbf{w}^{(1)} \mid \mathbf{w}^{(2)} \mid \cdots \mid \mathbf{w}^{(7)}\,\big] \in \mathbb{R}^{7 \times 5}
+\ \longrightarrow\
+\text{vec}(\mathbf{W}) \in \mathbb{R}^{35},
+$$
+
+$$
+w_j \in \{-1, -0.9, \ldots, 0.9, 1\} \quad \text{(21 quantization levels)}.
+$$
 
 ### Genetic Algorithm & Learning Objective
-- From multiplayer sessions, log constraints $(\\mathbf{s}_c, a_c)$: state and the human’s chosen action.
-- **Margin objective:** for each constraint, prefer the chosen action over all others
+From multiplayer sessions we log constraints \((\mathbf{s}_c, a_c)\) (state and the human‑chosen action). We train by a **margin objective** that prefers the chosen action over all others:
 
 $$
-\\mathbf{w}^{(a_c)}\\cdot\\mathbf{s}_c\\;>\\;\\mathbf{w}^{(b)}\\cdot\\mathbf{s}_c,\\quad\\forall b\\neq a_c.
+\mathbf{w}^{(a_c)} \cdot \mathbf{s}_c \;>\; \mathbf{w}^{(b)} \cdot \mathbf{s}_c, \qquad \forall\, b \neq a_c.
 $$
 
-- **Fitness** (maximize total margin across the log set $\\mathcal{C}$):
+The GA maximizes a summed margin‑style fitness over all constraints:
 
 $$
-F(\\mathbf{W}) = \\sum_{(\\mathbf{s}_c,a_c)\\in\\mathcal{C}}\\;\\sum_{b\\in\\mathcal{A},\\ b\\neq a_c}\\big(\\mathbf{w}^{(a_c)}-\\mathbf{w}^{(b)}\\big)\\cdot\\mathbf{s}_c.
+F(\mathbf{W}) \;=\;
+\sum_{(\mathbf{s}_c,a_c) \in \mathcal{C}} \;
+\sum_{b \in \mathcal{A},\, b \neq a_c}
+\Big(\mathbf{w}^{(a_c)} - \mathbf{w}^{(b)}\Big)\cdot \mathbf{s}_c.
 $$
 
 This drives the GA to **mimic human action selection** under observed states.
 
 ### GA Workflow
-1. **Initialize** population $P$ with quantized genes.
-2. **Evaluate** each $\\mathbf{W}_i$ by computing $F(\\mathbf{W}_i)$ on the constraint log.
+1. **Initialize** a population \(P\) with quantized genes.
+2. **Evaluate** each \(\mathbf{W}_i\) by computing \(F(\mathbf{W}_i)\) on the constraint log.
 3. **Select** parents by **tournament selection**.
 4. **Crossover** genomes (1‑point or uniform) to form offspring.
-5. **Mutate** a fraction $\\mu$ of genes (random level flips; optional Gaussian jitter before requantization).
-6. **Elitism:** carry top $E$ individuals unchanged.
-7. **Repeat** for $G$ generations or until validation fitness saturates.
+5. **Mutate** a fraction \(\mu\) of genes (random level flips; optional Gaussian jitter before requantization).
+6. **Elitism:** carry top \(E\) individuals unchanged.
+7. **Repeat** for \(G\) generations or until validation fitness saturates.
 
 ---
 
@@ -188,9 +231,9 @@ cd maze-ai-ga
 
 ### GA Training from Logs
 1. In the **Bootstrap/GAOptimizer** component, set:
-   - **Population P**, **Generations G**, **Mutation Rate $\\mu$**, **Elites E**.
+   - **Population P**, **Generations G**, **Mutation Rate \(\mu\)**, **Elites E**.
    - **Quantization** levels (21 by default) and **random seed**.
-2. Click **Train** in play mode (or run the attached editor tool) to evolve $\\mathbf{W}$.
+2. Click **Train** in play mode (or run the attached editor tool) to evolve \(\mathbf{W}\).
 3. The **best policy** weights are saved to `Assets/Resources/Policy/best_policy.json` and auto‑loaded at runtime.
 
 ---
@@ -230,9 +273,9 @@ Key parameters (exposed in **SceneBootstrap → GAOptimizer** unless noted):
 - **Maze**: grid size `(rows, cols)`, cell size, loop probability `p_loop`.
 - **Resources**: `H_max`, `chi_max`, recharge rate `r`, charge multiplier, UI timeouts.
 - **Laser**: damage rate `d`, chakra cost per second.
-- **Barrier**: lifetime `$\\tau$`, chakra cost, cooldown.
+- **Barrier**: lifetime `\tau`, chakra cost, cooldown.
 - **Teleport**: base cost `c0`, per‑tile cost `c1`, cooldown.
-- **GA**: `P`, `G`, `$\\mu$`, elites `E`, tournament size, crossover type.
+- **GA**: `P`, `G`, `\mu`, elites `E`, tournament size, crossover type.
 - **Logging**: path to constraint JSON, sampling period.
 
 ---
@@ -240,7 +283,7 @@ Key parameters (exposed in **SceneBootstrap → GAOptimizer** unless noted):
 ## Experiments & Tips
 - **Fitness scaling**: normalize states before dot‑products to keep margins comparable.
 - **Class imbalance**: if some actions are rare in logs, apply per‑action weights in fitness.
-- **Exploration vs exploitation**: keep a small **$\\varepsilon$‑greedy** during self‑play to avoid overfitting.
+- **Exploration vs exploitation**: keep a small **\(\varepsilon\)-greedy** during self‑play to avoid overfitting.
 - **Safety constraints**: penalize actions that cause self‑damage (e.g., teleporting into firelines).
 - **Hybrid policy**: mix linear policy with A*‑derived heuristics for escape/approach subtasks.
 - **Ablations**: compare (i) hand‑tuned FSM/BT, (ii) linear GA policy, (iii) MLP policy.
