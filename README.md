@@ -223,6 +223,3 @@ If you build on this work, please cite the repository:
 ```
 
 ---
-
-## License
-This project is released under the **MIT License**. See `LICENSE` for details.
