@@ -7,7 +7,7 @@
 
 A 1v1 **action‑strategy** game set inside a **procedurally generated maze**, where the opponent is an **adaptive AI** trained with a **Genetic Algorithm (GA)** and uses **A*** for path planning. The arena is **malleable**: walls are **destructible** and **buildable** on the fly; abilities (laser, barrier, teleport) are limited by a **chakra** energy bar that **recharges** over time.
 
-> **TL;DR** — You fight an AI that learns action selection from human play logs via GA. The maze changes as both sides build/destroy walls. You manage **Health** (non‑regenerating) and **Chakra** (regenerating) to time **Lasers / Barriers / Teleports**.
+> **TL;DR** — You fight an AI that learns action selection from human play logs via GA. The maze changes as both sides build/destroy walls. You manage **Health** (non‑regenerating) and **Chakra** (recharging) to time **Lasers / Barriers / Teleports**.
 
 ---
 
@@ -82,6 +82,7 @@ A 1v1 **action‑strategy** game set inside a **procedurally generated maze**, w
 ### Environment Manipulation: Barriers & Teleportation
 - **Barrier:** spawn a wall in the forward grid cell; despawns after duration $\\tau$ or manual toggle.
 - **Teleport:** preview a marker $k$ cells ahead; confirm to blink and pay cost
+
 $$
 \\operatorname{Cost}_{\\text{TP}}(k) = c_0 + c_1\\,k,\\quad k\\in\\mathbb{N}.
 $$
@@ -96,13 +97,22 @@ $$
 ## AI: Policy, Equations & GA
 
 ### State, Actions, and Linear Policy
-- **Actions** $\\mathcal{A} = \\{\\texttt{Laser},\\ \\texttt{Blocking},\\ \\texttt{Hindering},\\ \\texttt{Escaping},\\ \\texttt{ShowingUp},\\ \\texttt{Teleport},\\ \\texttt{Charging}\\}$ (7 actions).\n- **State** $\\mathbf{s}\\in\\mathbb{R}^5$:\n  - $s_1=\\texttt{dtile}\\in[0,1]$: normalized grid distance;\n  - $s_2\\in\\{0,1\\}$: line‑of‑sight flag;\n  - $s_3\\in\\{0,1\\}$: opponent being hit;\n  - $s_4\\in\\{0,1\\}$: self being hit;\n  - $s_5=\\chi\\in[0,1]$: normalized chakra.\n- **Linear policy**: each action $a$ has weights $\\mathbf{w}^{(a)}\\in\\mathbb{R}^5$. The score is
+- **Actions** $\\mathcal{A} = \\{\\texttt{Laser},\\ \\texttt{Blocking},\\ \\texttt{Hindering},\\ \\texttt{Escaping},\\ \\texttt{ShowingUp},\\ \\texttt{Teleport},\\ \\texttt{Charging}\\}$ (7 actions).
+- **State** $\\mathbf{s}\\in\\mathbb{R}^5$:
+  - $s_1=\\texttt{dtile}\\in[0,1]$: normalized grid distance;
+  - $s_2\\in\\{0,1\\}$: line‑of‑sight flag;
+  - $s_3\\in\\{0,1\\}$: opponent being hit;
+  - $s_4\\in\\{0,1\\}$: self being hit;
+  - $s_5=\\chi\\in[0,1]$: normalized chakra.
+- **Linear policy**: each action $a$ has weights $\\mathbf{w}^{(a)}\\in\\mathbb{R}^5$. The score is
+
 $$
 \\operatorname{Score}(a\\mid\\mathbf{s}) = \\mathbf{w}^{(a)}\\cdot\\mathbf{s} = \\sum_{j=1}^{5} w^{(a)}_j s_j,\\qquad a^* = \\arg\\max_a \\operatorname{Score}(a\\mid\\mathbf{s}).
 $$
 
 ### Optional MLP Policy
 A compact 1‑hidden‑layer MLP increases capacity:
+
 $$
 \\mathbb{R}^5 \\xrightarrow{\\mathbf{W}^{(1)}} \\mathbb{R}^6 \\xrightarrow{\\sigma} \\mathbb{R}^6 \\xrightarrow{\\mathbf{W}^{(2)}} \\mathbb{R}^7.
 $$
@@ -114,13 +124,17 @@ $$
 ### Genetic Algorithm & Learning Objective
 - From multiplayer sessions, log constraints $(\\mathbf{s}_c, a_c)$: state and the human’s chosen action.
 - **Margin objective:** for each constraint, prefer the chosen action over all others
+
 $$
 \\mathbf{w}^{(a_c)}\\cdot\\mathbf{s}_c\\;>\\;\\mathbf{w}^{(b)}\\cdot\\mathbf{s}_c,\\quad\\forall b\\neq a_c.
 $$
+
 - **Fitness** (maximize total margin across the log set $\\mathcal{C}$):
+
 $$
 F(\\mathbf{W}) = \\sum_{(\\mathbf{s}_c,a_c)\\in\\mathcal{C}}\\;\\sum_{b\\in\\mathcal{A},\\ b\\neq a_c}\\big(\\mathbf{w}^{(a_c)}-\\mathbf{w}^{(b)}\\big)\\cdot\\mathbf{s}_c.
 $$
+
 This drives the GA to **mimic human action selection** under observed states.
 
 ### GA Workflow
@@ -174,7 +188,7 @@ cd maze-ai-ga
 
 ### GA Training from Logs
 1. In the **Bootstrap/GAOptimizer** component, set:
-   - **Population P**, **Generations G**, **Mutation Rate μ**, **Elites E**.
+   - **Population P**, **Generations G**, **Mutation Rate $\\mu$**, **Elites E**.
    - **Quantization** levels (21 by default) and **random seed**.
 2. Click **Train** in play mode (or run the attached editor tool) to evolve $\\mathbf{W}$.
 3. The **best policy** weights are saved to `Assets/Resources/Policy/best_policy.json` and auto‑loaded at runtime.
@@ -216,9 +230,9 @@ Key parameters (exposed in **SceneBootstrap → GAOptimizer** unless noted):
 - **Maze**: grid size `(rows, cols)`, cell size, loop probability `p_loop`.
 - **Resources**: `H_max`, `chi_max`, recharge rate `r`, charge multiplier, UI timeouts.
 - **Laser**: damage rate `d`, chakra cost per second.
-- **Barrier**: lifetime `τ`, chakra cost, cooldown.
+- **Barrier**: lifetime `$\\tau$`, chakra cost, cooldown.
 - **Teleport**: base cost `c0`, per‑tile cost `c1`, cooldown.
-- **GA**: `P`, `G`, `μ`, elites `E`, tournament size, crossover type.
+- **GA**: `P`, `G`, `$\\mu$`, elites `E`, tournament size, crossover type.
 - **Logging**: path to constraint JSON, sampling period.
 
 ---
@@ -226,7 +240,7 @@ Key parameters (exposed in **SceneBootstrap → GAOptimizer** unless noted):
 ## Experiments & Tips
 - **Fitness scaling**: normalize states before dot‑products to keep margins comparable.
 - **Class imbalance**: if some actions are rare in logs, apply per‑action weights in fitness.
-- **Exploration vs exploitation**: keep a small **ε‑greedy** during self‑play to avoid overfitting.
+- **Exploration vs exploitation**: keep a small **$\\varepsilon$‑greedy** during self‑play to avoid overfitting.
 - **Safety constraints**: penalize actions that cause self‑damage (e.g., teleporting into firelines).
 - **Hybrid policy**: mix linear policy with A*‑derived heuristics for escape/approach subtasks.
 - **Ablations**: compare (i) hand‑tuned FSM/BT, (ii) linear GA policy, (iii) MLP policy.
