@@ -90,7 +90,7 @@ $$
 A raycast is maintained while firing; damage accumulates per frame $\Delta t$:
 
 $$
-\Delta H_t = d\,\Delta t,
+\Delta H_t = d\\Delta t
 $$
 
 where $d$ is the constant damage rate while the beam intersects a target.
@@ -101,7 +101,7 @@ where $d$ is the constant damage rate while the beam intersects a target.
 - **Teleport:** preview a marker \(k\) cells ahead; confirm to blink and pay cost
 
 $$
-\mathrm{Cost}_{\mathrm{TP}}(k) \=\ c_0 + c_1\,k, \qquad k \in \mathbb{N}.
+\mathrm{Cost}_{\mathrm{TP}}(k) \=\ c_0 + c_1\k \qquad k \in \mathbb{N}.
 $$
 
 ---
@@ -123,7 +123,7 @@ $$
 State vector (normalized/scalar flags):
 
 $$
-\mathbf{s} = [\,s_1, s_2, s_3, s_4, s_5\,]^\top \in \mathbb{R}^5,
+\mathbf{s} = [\s_1, s_2, s_3, s_4, s_5\]^\top \in \mathbb{R}^5,
 \quad
 \begin{aligned}
 &s_1=\texttt{dtile}\in[0,1],\\
