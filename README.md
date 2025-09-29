@@ -114,6 +114,10 @@ A compact 1‑hidden‑layer MLP increases capacity:
 \mathbb{R}^5 \xrightarrow{\ \mathbf{W}^{(1)}\ } \mathbb{R}^6 \xrightarrow{\ \sigma\ } \mathbb{R}^6 \xrightarrow{\ \mathbf{W}^{(2)}\ } \mathbb{R}^7.
 \]
 
+$$
+\mathbb{R}^5 \xrightarrow{\mathbf{W}^{(1)}} \mathbb{R}^6
+$$
+
 ### Genome & Discretization
 - **Genome:** concatenate all weights \(\mathbf{W}=[\mathbf{w}^{(1)}|\cdots|\mathbf{w}^{(7)}]\in\mathbb{R}^{7\times5}\) → vector of length **35**.
 - **Quantization:** each gene \(w_j\in\{-1,-0.9,\ldots,0.9,1\}\) (21 levels) to keep GA search tractable.
