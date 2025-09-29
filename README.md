@@ -113,8 +113,8 @@ $$
 We concatenate all action weights into a genome and evolve under selection, crossover, and mutation.
 
 $$
-\mathbf{W} = \big[\,\mathbf{w}^{(1)} \mid \cdots \mid \mathbf{w}^{(7)}\,\big] \in \mathbb{R}^{7 \times 5}
-\;\longrightarrow\;
+\mathbf{W} = \big[\\mathbf{w}^{(1)} \mid \mathbf{w}^{(2)} \mid \cdots \mid \mathbf{w}^{(7)}\\big] \in \mathbb{R}^{7 \times 5}
+\ \longrightarrow\
 \text{vec}(\mathbf{W}) \in \mathbb{R}^{35},
 $$
 
