@@ -122,14 +122,17 @@ $$
 w_j \in \{-1, -0.9, \ldots, 0.9, 1\} \quad \text{(21 quantization levels)}.
 $$
 
-**GA workflow**
-1. Initialize population \( P \) (quantized genes).  
-2. Evaluate each \( \mathbf{W}_i \) via \( F(\mathbf{W}_i) \) on the constraint log.  
-3. Parent selection via **tournament selection**.  
-4. **Crossover** genomes (one‑point or uniform).  
-5. **Mutate** a fraction \( \mu \) of genes (level flips; optional Gaussian jitter + requantization).  
-6. **Elitism**: carry top \( E \) individuals unchanged.  
-7. Repeat for \( G \) generations or until validation fitness saturates.
+### GA Workflow
+
+1. Initialize a population $P$ with quantized genes.
+2. Evaluate each candidate $\mathbf{W}_i$ by computing $F(\mathbf{W}_i)$ on the constraint log.
+3. Select parents via tournament selection.
+4. Crossover genomes (one-point or uniform) to form offspring.
+5. Mutate a fraction $\mu$ of genes (random level flips; optional Gaussian jitter before requantization).
+6. **Elitism:** carry the top $E$ individuals unchanged.
+7. Repeat for $G$ generations or until validation fitness saturates.
+
+*Symbols:* $P$ = population size, $\mathbf{W}_i$ = individual’s weights, $F$ = fitness, $\mu$ = mutation rate, $E$ = number of elites, $G$ = number of generations.
 
 ---
 
