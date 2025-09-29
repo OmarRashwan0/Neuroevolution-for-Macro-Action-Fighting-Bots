@@ -135,6 +135,24 @@ $$
 
 ---
 
+## Results
+
+### Fitness vs. Generation (by Layers)
+
+<p align="center">
+  <img src="docs/figures/ga_fitness_by_layers.png" alt="GA Fitness vs Generation across architectures (1-layer linear vs 2-layer MLP). Mean best-fitness per generation; shaded bands show 95% CI when multiple runs exist." width="720">
+</p>
+
+**Figure 1.** Mean **best fitness per generation** for architectures with different numbers of layers (1 = linear 5→7, 2 = MLP 5→hidden→7). Shaded regions are **95% confidence intervals** across runs (if \(n>1\)). Raw logs: [`ga_fitness_log.csv`](./ga_fitness_log.csv).
+
+**Interpretation.**  
+- **Convergence:** The **2-layer MLP** reaches high fitness **in fewer generations** (lower gen@90% of final) compared to the linear policy.  
+- **Final performance:** The 2-layer MLP attains a **higher final mean fitness** and **larger AUC** (area under the curve), indicating both faster and better optimization.  
+- **Stability:** Narrower CIs suggest **more stable** outcomes across runs for the MLP; where bands overlap, gains are modest.  
+- **Trade-off:** If compute per generation matters, the linear model is simpler but typically underperforms; the MLP offers **robust gains** under the same GA budget.
+
+---
+
 ## Planned Evaluation Protocol
 **Baselines**  
 - Hand‑tuned FSM/BT bot  
