@@ -123,7 +123,7 @@ $$
 State vector (normalized/scalar flags):
 
 $$
-\mathbf{s} = [\s_1, s_2, s_3, s_4, s_5\]^\top \in \mathbb{R}^5,
+\mathbf{s} = [s_1, s_2, s_3, s_4, s_5\]^\top \in \mathbb{R}^5,
 \quad
 \begin{aligned}
 &s_1=\texttt{dtile}\in[0,1],\\
