@@ -154,7 +154,7 @@ $$
 We concatenate all weights into a genome vector and quantize for GA search:
 
 $$
-\mathbf{W} = \big[\,\mathbf{w}^{(1)} \mid \mathbf{w}^{(2)} \mid \cdots \mid \mathbf{w}^{(7)}\,\big] \in \mathbb{R}^{7 \times 5}
+\mathbf{W} = \big[\\mathbf{w}^{(1)} \mid \mathbf{w}^{(2)} \mid \cdots \mid \mathbf{w}^{(7)}\\big] \in \mathbb{R}^{7 \times 5}
 \ \longrightarrow\
 \text{vec}(\mathbf{W}) \in \mathbb{R}^{35},
 $$
