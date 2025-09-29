@@ -87,13 +87,14 @@ H \in \mathbb{R}_{\ge 0}, \qquad
 $$
 
 ### Combat: Continuous Laser
-- A raycast is maintained while firing; damage accumulates per frame \(\Delta t\):
+A raycast is maintained while firing; damage accumulates per frame $\Delta t$:
 
 $$
-\Delta H_t \=\ d \,\Delta t,
+\Delta H_t = d\,\Delta t,
 $$
 
-where \(d\) is the constant damage rate while the beam intersects a target.
+where $d$ is the constant damage rate while the beam intersects a target.
+
 
 ### Environment Manipulation: Barriers & Teleportation
 - **Barrier:** spawns in the forward grid cell; despawns after duration \(\tau\) or manual toggle.
