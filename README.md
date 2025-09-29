@@ -90,7 +90,7 @@ $$
 - A raycast is maintained while firing; damage accumulates per frame \(\Delta t\):
 
 $$
-\Delta H_t \;=\; d \,\Delta t,
+\Delta H_t \=\ d \,\Delta t,
 $$
 
 where \(d\) is the constant damage rate while the beam intersects a target.
@@ -100,7 +100,7 @@ where \(d\) is the constant damage rate while the beam intersects a target.
 - **Teleport:** preview a marker \(k\) cells ahead; confirm to blink and pay cost
 
 $$
-\mathrm{Cost}_{\mathrm{TP}}(k) \;=\; c_0 + c_1\,k, \qquad k \in \mathbb{N}.
+\mathrm{Cost}_{\mathrm{TP}}(k) \=\ c_0 + c_1\,k, \qquad k \in \mathbb{N}.
 $$
 
 ---
@@ -136,17 +136,17 @@ $$
 Each action \(a \in \mathcal{A}\) has weights \(\mathbf{w}^{(a)} \in \mathbb{R}^5\). We score actions by a dot‑product and choose the maximum:
 
 $$
-\mathrm{Score}(a \mid \mathbf{s}) \;=\; \mathbf{w}^{(a)} \cdot \mathbf{s}
-\;=\; \sum_{j=1}^{5} w^{(a)}_j s_j,
+\mathrm{Score}(a \mid \mathbf{s}) \=\ \mathbf{w}^{(a)} \cdot \mathbf{s}
+\=\ \sum_{j=1}^{5} w^{(a)}_j s_j,
 \qquad
-a^* \;=\; \arg\max_{a \in \mathcal{A}} \mathrm{Score}(a \mid \mathbf{s}).
+a^* \=\ \arg\max_{a \in \mathcal{A}} \mathrm{Score}(a \mid \mathbf{s}).
 $$
 
 ### Optional MLP Policy
 A compact 1‑hidden‑layer MLP increases capacity:
 
 $$
-\mathbb{R}^5 \;\to\; \mathbb{R}^6 \;\to\; \mathbb{R}^6 \;\to\; \mathbb{R}^7.
+\mathbb{R}^5 \\to\ \mathbb{R}^6 \\to\ \mathbb{R}^6 \\to\ \mathbb{R}^7.
 $$
 
 ### Genome & Discretization
@@ -166,14 +166,14 @@ $$
 From multiplayer sessions we log constraints \((\mathbf{s}_c, a_c)\) (state and the human‑chosen action). We train by a **margin objective** that prefers the chosen action over all others:
 
 $$
-\mathbf{w}^{(a_c)} \cdot \mathbf{s}_c \;>\; \mathbf{w}^{(b)} \cdot \mathbf{s}_c, \qquad \forall\, b \neq a_c.
+\mathbf{w}^{(a_c)} \cdot \mathbf{s}_c \>\ \mathbf{w}^{(b)} \cdot \mathbf{s}_c, \qquad \forall\, b \neq a_c.
 $$
 
 The GA maximizes a summed margin‑style fitness over all constraints:
 
 $$
-F(\mathbf{W}) \;=\;
-\sum_{(\mathbf{s}_c,a_c) \in \mathcal{C}} \;
+F(\mathbf{W}) \=\
+\sum_{(\mathbf{s}_c,a_c) \in \mathcal{C}} \
 \sum_{b \in \mathcal{A},\, b \neq a_c}
 \Big(\mathbf{w}^{(a_c)} - \mathbf{w}^{(b)}\Big)\cdot \mathbf{s}_c.
 $$
