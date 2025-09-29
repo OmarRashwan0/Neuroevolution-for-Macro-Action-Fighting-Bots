@@ -173,7 +173,18 @@ $$
 ### Collect Human Logs
 - Play network matches; logs are saved as JSON constraints:
 ```json
-{"s":[dtile,visibility,h1,h2,chakra],"a":"Laser","t":1699999999}
+{
+            "state": [
+                0.15811388194561006,
+                1.0,
+                0.0,
+                0.0,
+                0.9698895812034607
+            ],
+            "chosenAction": "escaping",
+            "epsilon": 0.009999999776482582,
+            "timestamp": 87.76191711425781
+        },
 ```
 - Default path: `Logs/constraints/*.json` (configurable in `GAOptimizer`).
 
