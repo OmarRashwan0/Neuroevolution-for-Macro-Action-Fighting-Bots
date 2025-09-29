@@ -133,7 +133,7 @@ $$
 \end{aligned}
 $$
 
-Each action $a \in \mathcal{A}$ has weights $\mathbf{w}^{(a)} \in \mathbb{R}^5$. We score actions by a dot product and choose the maximum:
+Each action $a \in \mathcal{A}$ has weights $\mathbf{w}^{(a)} \in \mathbb{R}^5$ (5-D vector). We score actions by a dot product and choose the maximum:
 
 $$
 \mathrm{Score}(a \mid \mathbf{s}) \=\ \mathbf{w}^{(a)} \cdot \mathbf{s}
