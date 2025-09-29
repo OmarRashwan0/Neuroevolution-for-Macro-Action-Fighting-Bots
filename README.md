@@ -52,7 +52,7 @@ where $d$ is the constant damage rate while the beam intersects a target.
 **Teleportation** has a distance‑dependent cost:
 
 $$
-\mathrm{Cost}_{\mathrm{TP}}(k) \;=\; c_0 + c_1k, \qquad k \in \mathbb{N}.
+\mathrm{Cost}_{\mathrm{TP}}(k) \;=\ c_0 + c_1k, \qquad k \in \mathbb{N}.
 $$
 
 ### State, Actions, and Policies
