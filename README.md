@@ -44,50 +44,53 @@ $$
 **Laser damage** accumulates continuously per frame \( \Delta t \):
 
 $$
-\Delta H_t \;=\; d\,\Delta t,
+\Delta H_t = d\\Delta t
 $$
 
-where \( d \) is the per‑second damage rate while a raycast intersects a target.
+where $d$ is the constant damage rate while the beam intersects a target.
 
 **Teleportation** has a distance‑dependent cost:
 
 $$
-\mathrm{Cost}_{\mathrm{TP}}(k) \;=\; c_0 + c_1\,k, \qquad k \in \mathbb{N}.
+\mathrm{Cost}_{\mathrm{TP}}(k) \;=\; c_0 + c_1k, \qquad k \in \mathbb{N}.
 $$
 
 ### State, Actions, and Policies
 We discretize gameplay into a compact state and seven macro‑actions:
 
 $$
-\mathcal{A} = \{\texttt{Laser},\,\texttt{Blocking},\,\texttt{Hindering},\,\texttt{Escaping},\,\texttt{ShowingUp},\,\texttt{Teleport},\,\texttt{Charging}\}, \quad |\mathcal{A}| = 7.
+\mathcal{A} = \{\texttt{Laser},\,\texttt{Blocking},\,\texttt{Hindering},\,\texttt{Escaping},\,\texttt{ShowingUp},\,\texttt{Teleport},\,\texttt{Charging}\} \quad (|\mathcal{A}|=7).
 $$
 
 State vector (normalized scalars / binary flags):
 
 $$
-\mathbf{s} = [\,s_1, s_2, s_3, s_4, s_5\,]^\top \in \mathbb{R}^5.
+\mathbf{s} = [s_1, s_2, s_3, s_4, s_5\]^\top \in \mathbb{R}^5,
+\quad
+\begin{aligned}
+&s_1=\texttt{dtile}\in[0,1],\\
+&s_2 \in \{0,1\}\ \text{(line of sight)},\\
+&s_3 \in \{0,1\}\ \text{(opponent being hit)},\\
+&s_4 \in \{0,1\}\ \text{(self being hit)},\\
+&s_5=\chi \in [0,1]\ \text{(normalized chakra)}.\\
+\end{aligned}
 $$
 
-- \( s_1 = \texttt{dtile} \in [0,1] \): normalized grid distance  
-- \( s_2 \in \{0,1\} \): line of sight flag  
-- \( s_3 \in \{0,1\} \): opponent being hit  
-- \( s_4 \in \{0,1\} \): self being hit  
-- \( s_5 = \chi \in [0,1] \): normalized chakra
-
-**Linear policy**: each action \( a \) has weights \( \mathbf{w}^{(a)} \in \mathbb{R}^5 \).
+**Linear policy**: Each action $a \in \mathcal{A}$ has weights $\mathbf{w}^{(a)} \in \mathbb{R}^5$ (5-D vector). We score actions by a dot product and choose the maximum:
 
 $$
-\mathrm{Score}(a \mid \mathbf{s}) = \mathbf{w}^{(a)} \cdot \mathbf{s}
-= \sum_{j=1}^{5} w^{(a)}_j\, s_j,
+\mathrm{Score}(a \mid \mathbf{s}) \=\ \mathbf{w}^{(a)} \cdot \mathbf{s}
+\=\ \sum_{j=1}^{5} w^{(a)}_j s_j,
 \qquad
-a^\* = \arg\max_{a \in \mathcal{A}} \mathrm{Score}(a \mid \mathbf{s}).
+a^* \=\ \arg\max_{a \in \mathcal{A}} \mathrm{Score}(a \mid \mathbf{s}).
 $$
 
 **Optional MLP policy** (1 hidden layer):
 
 $$
-\mathbb{R}^5 \to \mathbb{R}^6 \to \mathbb{R}^6 \to \mathbb{R}^7.
+\mathbb{R}^5 \\to\ \mathbb{R}^6 \\to\ \mathbb{R}^6 \\to\ \mathbb{R}^7.
 $$
+
 
 ### Learning from Human Logs (Margin Objective)
 From multiplayer sessions we log constraints \( (\mathbf{s}_c, a_c) \): state and the human‑chosen action. We train by preferring the chosen action over all others:
