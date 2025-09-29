@@ -181,13 +181,17 @@ $$
 This drives the GA to **mimic human action selection** under observed states.
 
 ### GA Workflow
-1. **Initialize** a population \(P\) with quantized genes.
-2. **Evaluate** each \(\mathbf{W}_i\) by computing \(F(\mathbf{W}_i)\) on the constraint log.
-3. **Select** parents by **tournament selection**.
-4. **Crossover** genomes (1‑point or uniform) to form offspring.
-5. **Mutate** a fraction \(\mu\) of genes (random level flips; optional Gaussian jitter before requantization).
-6. **Elitism:** carry top \(E\) individuals unchanged.
-7. **Repeat** for \(G\) generations or until validation fitness saturates.
+
+1. Initialize a population $P$ with quantized genes.
+2. Evaluate each candidate $\mathbf{W}_i$ by computing $F(\mathbf{W}_i)$ on the constraint log.
+3. Select parents via tournament selection.
+4. Crossover genomes (one-point or uniform) to form offspring.
+5. Mutate a fraction $\mu$ of genes (random level flips; optional Gaussian jitter before requantization).
+6. **Elitism:** carry the top $E$ individuals unchanged.
+7. Repeat for $G$ generations or until validation fitness saturates.
+
+*Symbols:* $P$ = population size, $\mathbf{W}_i$ = individual’s weights, $F$ = fitness, $\mu$ = mutation rate, $E$ = number of elites, $G$ = number of generations.
+
 
 ---
 
