@@ -93,7 +93,7 @@ $$
 
 
 ### Learning from Human Logs (Margin Objective)
-From multiplayer sessions we log constraints \( (\mathbf{s}_c, a_c) \): state and the human‑chosen action. We train by preferring the chosen action over all others:
+From multiplayer sessions we log constraints $(\mathbf{s}_c, a_c)$ — the state and the human-chosen action. We train by preferring the chosen action over all others:
 
 $$
 \mathbf{w}^{(a_c)} \cdot \mathbf{s}_c \>\ \mathbf{w}^{(b)} \cdot \mathbf{s}_c, \qquad \forall\, b \neq a_c.
