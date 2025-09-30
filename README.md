@@ -12,6 +12,7 @@
 
 
 https://github.com/user-attachments/assets/1243c7cd-428c-4196-b819-4981231e0e15
+<figcaption align="center"><em>Bot defeats human — live match recording.</em></figcaption>
 
 
 
