@@ -46,7 +46,7 @@ $$
 \text{Grid size: } m \times n, \qquad \text{Loop probability: } p_{\mathrm{loop}} \in [0,1].
 $$
 
-**Laser damage** accumulates continuously per frame \($$ \Delta t \$$):
+**Laser damage** accumulates continuously per frame \(\Delta t \):
 
 $$
 \Delta H_t = d\\Delta t
