@@ -11,11 +11,7 @@
 ---
 
 
-
-
-<video controls playsinline preload="metadata" poster="docs/maze_poster.png" style="max-width:100%; height:auto;">
-  <source src="https://github.com/user-attachments/assets/1243c7cd-428c-4196-b819-4981231e0e15" type="video/mp4">
-</video>
+https://github.com/user-attachments/assets/1243c7cd-428c-4196-b819-4981231e0e15
 
 
 
