@@ -148,7 +148,7 @@ $$
   <img src="docs/figures/ga_fitness_by_layers.png" alt="GA Fitness vs Generation across architectures (1-layer linear vs 2-layer MLP). Mean best-fitness per generation; shaded bands show 95% CI when multiple runs exist." width="720">
 </p>
 
-The figure shows that adding hidden layers improves the agent’s fitness, reflecting better play and richer pattern capture. However, the 3-layer MLP lags early and often plateaus near the 2-layer curve, suggesting that the extra capacity isn’t realized under the current GA settings.
+The figure shows that adding hidden layers improves the agent’s fitness, reflecting better play and richer pattern capture. However, the 3-layer MLP often plateaus near the 2-layer curve, suggesting that the extra capacity isn’t realized under the current GA settings.
 
 ---
 
