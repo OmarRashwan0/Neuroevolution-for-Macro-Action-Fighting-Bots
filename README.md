@@ -10,11 +10,8 @@
 
 ---
 
-
 https://github.com/user-attachments/assets/1243c7cd-428c-4196-b819-4981231e0e15
-<figcaption align="center"><em>Bot defeats human — live match recording.</em></figcaption>
-
-
+<figcaption align="center"><em>Live match — GA-evolved bot defeats human. Trained on ~900 logged actions, it chains dodge → teleport → counter-laser; chakra is disabled for a faster demo.</em></figcaption>
 
 ---
 
