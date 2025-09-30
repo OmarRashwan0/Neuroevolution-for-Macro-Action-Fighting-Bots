@@ -11,7 +11,7 @@
 ---
 
 https://github.com/user-attachments/assets/1243c7cd-428c-4196-b819-4981231e0e15
-<figcaption align="center"><em>Live match — GA-evolved bot defeats human. Trained on ~900 logged actions, it chains dodge → teleport → counter-laser; chakra is disabled for a faster demo.</em></figcaption>
+<figcaption align="center"><em>Live match — GA-evolved bot defeats human. Despite a small training set (~900 human actions), the GA-evolved policy reliably dodges laser fire, teleports to re-engage from new angles, and lands counter-laser shots. Chakra is disabled to keep the demo snappy.</em></figcaption>
 
 ---
 
