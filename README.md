@@ -9,9 +9,9 @@
 > **Abstract —** We study macro‑action selection in a dynamic grid arena with **destructible/buildable walls**, **continuous laser damage**, and **teleportation**. An agent’s policy (linear or 1‑layer MLP) is **evolved** from **human gameplay logs** via a **margin‑based Genetic Algorithm (GA)**, while **A\*** provides path planning for approach/escape. We define a reproducible pipeline (Unity prototype, logging, GA training) and a planned evaluation protocol (win‑rate vs scripted baselines, time‑to‑capture/escape, DPS, path optimality, robustness to occlusion/latency). This repository is **ongoing research**; formal results and ablations will be added as experiments complete.
 
 ---
-<video controls playsinline preload="metadata" style="max-width:100%;height:auto;"
-       src="https://github.com/<USER>/<REPO>/blob/<BRANCH>/docs/GA_MAZE_output.mov?raw=1">
-</video>
+
+
+Uploading GA_MAZE_output (1).mov…
 
 
 ---
