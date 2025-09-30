@@ -10,6 +10,20 @@
 
 ---
 
+<!-- Inline player (keeps original quality) -->
+<video controls playsinline preload="metadata" style="max-width:100%; height:auto;">
+  <source src="docs/GA_MAZE_output.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
+<!-- Helpful fallback link -->
+<p>
+  👉 <a href="docs/GA_MAZE_output.mp4">Watch / Download the MP4</a>
+</p>
+
+
+---
+
 ## Highlights
 - **Dynamic arena:** Procedural maze (perfect maze + loop additions), **destructible walls**, player‑placed **barriers**, and **teleportation**.
 - **Two resources:** Health (non‑regenerating) and Chakra (recharging) with HUD + in‑world bars.
