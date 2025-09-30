@@ -76,7 +76,7 @@ $$
 \mathbf{s} = [s_1, s_2, s_3, s_4, s_5\]^\top \in \mathbb{R}^5,
 \quad
 \begin{aligned}
-&s_1=\texttt{dtile}\in[0,1], We define `dtile = \min(1, D / D_{\max})`, where \( D \) is Manhattan distance in tiles and \( D_{\max} \) is the arena’s max tile distance; higher means farther.
+&s_1=\texttt{dtile}\in[0,1],\\
 &s_2 \in \{0,1\}\ \text{(line of sight)},\\
 &s_3 \in \{0,1\}\ \text{(opponent being hit)},\\
 &s_4 \in \{0,1\}\ \text{(self being hit)},\\
