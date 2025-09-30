@@ -9,7 +9,7 @@
 > **Abstract —** We study macro‑action selection in a dynamic grid arena with **destructible/buildable walls**, **continuous laser damage**, and **teleportation**. An agent’s policy (linear or 1‑layer MLP) is **evolved** from **human gameplay logs** via a **margin‑based Genetic Algorithm (GA)**, while **A\*** provides path planning for approach/escape. We define a reproducible pipeline (Unity prototype, logging, GA training) and a planned evaluation protocol (win‑rate vs scripted baselines, time‑to‑capture/escape, DPS, path optimality, robustness to occlusion/latency). This repository is **ongoing research**; formal results and ablations will be added as experiments complete.
 
 ---
-
+## Demo
 https://github.com/user-attachments/assets/1243c7cd-428c-4196-b819-4981231e0e15
 <figcaption align="center"><em>Live match — GA-evolved bot defeats human (top-left green health bar decreases to zero). Despite a small training set (~900 human actions), the GA-evolved policy reliably dodges laser fire, teleports to re-engage from new angles, and lands counter-laser shots. Chakra is disabled to keep the demo snappy.</em></figcaption>
 
