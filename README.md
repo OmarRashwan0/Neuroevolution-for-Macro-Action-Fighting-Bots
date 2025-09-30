@@ -76,7 +76,7 @@ $$
 \mathbf{s} = [s_1, s_2, s_3, s_4, s_5\]^\top \in \mathbb{R}^5,
 \quad
 \begin{aligned}
-&s_1=\texttt{dtile}\in[0,1],\\
+&s_1=\texttt{dtile}\in[0,1],\\ \text{(normalized distance in tiles; see below)},\\
 &s_2 \in \{0,1\}\ \text{(line of sight)},\\
 &s_3 \in \{0,1\}\ \text{(opponent being hit)},\\
 &s_4 \in \{0,1\}\ \text{(self being hit)},\\
