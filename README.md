@@ -10,7 +10,7 @@
 
 ---
 <video controls playsinline preload="metadata" style="max-width:100%;height:auto;"
-       src="https://raw.githubusercontent.com/<USER>/<REPO>/<BRANCH>/docs/GA_MAZE_output.mov">
+       src="https://github.com/<USER>/<REPO>/blob/<BRANCH>/docs/GA_MAZE_output.mov?raw=1">
 </video>
 
 
