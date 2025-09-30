@@ -6,7 +6,7 @@
 [![Status](https://img.shields.io/badge/Status-In%20Progress-orange)](#project-status--roadmap)
 [![License](https://img.shields.io/badge/License-MIT-blue)](#license)
 
-> **Abstract —** We study macro‑action selection in a dynamic grid arena with **destructible/buildable walls**, **continuous laser damage**, and **teleportation**. An agent’s policy (linear or 1‑layer MLP) is **evolved** from **human gameplay logs** via a **margin‑based Genetic Algorithm (GA)**, while **A\*** provides path planning for approach/escape. We define a reproducible pipeline (Unity prototype, logging, GA training) and a planned evaluation protocol (win‑rate vs scripted baselines, time‑to‑capture/escape, DPS, path optimality, robustness to occlusion/latency). This repository is **ongoing research**; formal results and ablations will be added as experiments complete.
+> **Abstract —** We study neuroevolution for macro-action selection in a dynamic, partially observed grid arena with destructible/buildable walls, continuous laser damage, and teleportation. Policies are small neural networks (or a linear ablation) whose weights are evolved by a margin-based Genetic Algorithm (GA) from human gameplay logs, while A* supplies path planning for approach/escape. We release a reproducible Unity prototype (single-player + network), an integrated logger, and a GA training loop. Preliminary results indicate that a 1-layer MLP macro-policy improves fitness and head-to-head win-rate over a linear controller under fixed seeds and 95% CIs. This project is ongoing research; we will add full ablations (capacity, quantization, GA hyperparameters) and robustness studies as experiments complete.
 
 ---
 ## Demo
